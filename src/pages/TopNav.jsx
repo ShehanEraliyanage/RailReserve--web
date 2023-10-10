@@ -1,48 +1,38 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Navbar, Nav, Dropdown } from "react-bootstrap";
+// import { BiUser, BiLogOut } from "react-icons/bi";
 
 const TopNav = () => {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-transparent ">
+    <Navbar expand="lg" bg="transparent" variant="light">
       <div className="container">
-        <Link className="navbar-brand">Travel App</Link>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#collapsibleNavId"
-          aria-controls="collapsibleNavId"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="collapsibleNavId">
-          <ul className="navbar-nav ms-auto mt-2 mt-lg-0">
-            <li className="nav-item dropdown">
-              <a
-                className="nav-link dropdown-toggle"
-                href="#"
-                id="dropdownId"
-                data-bs-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                Actions
-              </a>
-              <div className="dropdown-menu" aria-labelledby="dropdownId">
-                <Link className="dropdown-item" to="/profile">
-                  Profile
-                </Link>
-                <Link className="dropdown-item" to="/logout">
-                  Logout
-                </Link>
-              </div>
-            </li>
-          </ul>
-        </div>
+        <Navbar.Brand as={Link} to="/">
+          <i className="bi bi-train text-primary fs-3 me-2"></i>
+          <span className="text-primary fs-4">Train Booking</span>
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="collapsibleNavId" />
+        <Navbar.Collapse id="collapsibleNavId">
+          <Nav className="ms-auto">
+            <Dropdown>
+              <Dropdown.Toggle variant="link" id="dropdownId">
+                <i className="bi bi-person fs-4 text-primary me-2"></i>
+                <span className="text-primary fs-5">My Account</span>
+              </Dropdown.Toggle>
+              <Dropdown.Menu align="end">
+                <Dropdown.Item as={Link} to="/profile">
+                  <i className="bi bi-person me-2"></i> Profile
+                </Dropdown.Item>
+                <Dropdown.Divider />
+                <Dropdown.Item as={Link} to="/logout">
+                  <i className="bi bi-box-arrow-right me-2"></i> Logout
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </Nav>
+        </Navbar.Collapse>
       </div>
-    </nav>
+    </Navbar>
   );
 };
 
