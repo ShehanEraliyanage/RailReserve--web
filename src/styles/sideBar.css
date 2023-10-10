@@ -11,6 +11,6 @@
   cursor: pointer;
 }
 
-.navStyle {
+.list-group-item.no-underline {
   text-decoration: none;
 }
