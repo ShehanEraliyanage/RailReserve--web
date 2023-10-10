@@ -1,58 +1,69 @@
 import React from "react";
+import { Container, Row, Col, Card } from "react-bootstrap";
+import { BiCartAdd } from "react-icons/bi";
 
 const Dashboard = () => {
   return (
-    <div
-      className="container-fluid min-vh-100 mt-4"
+    <Container
+      fluid
+      className="min-vh-100 mt-4"
       style={{ background: "#E0E0E0" }}
     >
-      <div className="row">
-        <div className="col-md-4 mb-4">
-          <div className="card bg-primary text-white shadow-sm rounded p-3">
-            <div className="d-flex justify-content-between align-items-center">
-              <div>
-                <h3 className="fs-2 mb-0">230</h3>
-                <p className="fs-5">Products</p>
+      <Row className="">
+        <Col md={4} className="mb-4 mt-4">
+          <Card bg="primary" text="white" className="shadow-sm rounded p-3">
+            <Card.Body>
+              <div className="d-flex justify-content-between align-items-center">
+                <div>
+                  <h3 className="fs-2 mb-0">230</h3>
+                  <p className="fs-5">Products</p>
+                </div>
+                <BiCartAdd className="fs-1" />
               </div>
-              <i className="bi bi-cart-plus fs-1"></i>
-            </div>
-          </div>
-        </div>
-        <div className="col-md-4 mb-4">
-          <div className="card bg-success text-white shadow-sm rounded p-3">
-            <div className="d-flex justify-content-between align-items-center">
-              <div>
-                <h3 className="fs-2 mb-0">230</h3>
-                <p className="fs-5">Products</p>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col md={4} className="mb-4 mt-4">
+          <Card bg="success" text="white" className="shadow-sm rounded p-3">
+            <Card.Body>
+              <div className="d-flex justify-content-between align-items-center">
+                <div>
+                  <h3 className="fs-2 mb-0">230</h3>
+                  <p className="fs-5">Products</p>
+                </div>
+                <BiCartAdd className="fs-1" />
               </div>
-              <i className="bi bi-cart-plus fs-1"></i>
-            </div>
-          </div>
-        </div>
-        <div className="col-md-4 mb-4">
-          <div className="card bg-info text-white shadow-sm rounded p-3">
-            <div className="d-flex justify-content-between align-items-center">
-              <div>
-                <h3 className="fs-2 mb-0">230</h3>
-                <p className="fs-5">Products</p>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col md={4} className="mb-4 mt-4">
+          <Card bg="info" text="white" className="shadow-sm rounded p-3">
+            <Card.Body>
+              <div className="d-flex justify-content-between align-items-center">
+                <div>
+                  <h3 className="fs-2 mb-0">230</h3>
+                  <p className="fs-5">Products</p>
+                </div>
+                <BiCartAdd className="fs-1" />
               </div>
-              <i className="bi bi-cart-plus fs-1"></i>
-            </div>
-          </div>
-        </div>
-        <div className="col-md-4 mb-4">
-          <div className="card bg-info text-white shadow-sm rounded p-3">
-            <div className="d-flex justify-content-between align-items-center">
-              <div>
-                <h3 className="fs-2 mb-0">230</h3>
-                <p className="fs-5">Products</p>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col md={4} className="mb-4 mt-4">
+          <Card bg="info" text="white" className="shadow-sm rounded p-3">
+            <Card.Body>
+              <div className="d-flex justify-content-between align-items-center">
+                <div>
+                  <h3 className="fs-2 mb-0">230</h3>
+                  <p className="fs-5">Products</p>
+                </div>
+                <BiCartAdd className="fs-1" />
               </div>
-              <i className="bi bi-cart-plus fs-1"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
