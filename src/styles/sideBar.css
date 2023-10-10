@@ -1,0 +1,12 @@
+/* sideBar.css */
+
+.sidebar {
+  width: 220px;
+  background-color: #ffffff;
+}
+
+.list-group a:hover {
+  background-color: rgb(103, 227, 249);
+  color: white;
+  cursor: pointer;
+}
