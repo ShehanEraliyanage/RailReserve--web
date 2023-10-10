@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const TopNav = () => {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar navbar-expand-lg navbar-light bg-transparent ">
       <div className="container">
         <Link className="navbar-brand">Travel App</Link>
         <button
@@ -40,20 +40,6 @@ const TopNav = () => {
               </div>
             </li>
           </ul>
-          <form className="d-flex my-2 my-lg-0">
-            <input
-              className="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button
-              className="btn btn-outline-success my-2 my-sm-0"
-              type="submit"
-            >
-              Search
-            </button>
-          </form>
         </div>
       </div>
     </nav>

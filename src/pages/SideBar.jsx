@@ -13,31 +13,26 @@ function SideBar() {
       <div className="list-group list-group-flush">
         <a className="list-group-item py-3">
           {" "}
-          {/* Increased the py-3 for more spacing */}
           <i className="bi bi-speedometer2 fs-5 me-3"></i>
           <span className="fs-5">Dashboard</span>
         </a>
         <a className="list-group-item py-3">
           {" "}
-          {/* Increased the py-3 for more spacing */}
           <i className="bi bi-list-ul fs-4 me-3"></i>
           <span className="fs-5">Travel List</span>
         </a>
         <a className="list-group-item py-3">
           {" "}
-          {/* Increased the py-3 for more spacing */}
           <i className="bi bi-bookmark fs-4 me-3"></i>
           <span className="fs-5">Booking</span>
         </a>
         <a className="list-group-item py-3">
           {" "}
-          {/* Increased the py-3 for more spacing */}
-          <i className="bi bi-train fs-4 me-3"></i>
+          <i className="bi bi-train-front fs-4 me-3"></i>
           <span className="fs-5">Trains</span>
         </a>
         <a className="list-group-item py-3">
           {" "}
-          {/* Increased the py-3 for more spacing */}
           <i className="bi bi-person fs-4 me-3"></i>
           <span className="fs-5">Agents</span>
         </a>

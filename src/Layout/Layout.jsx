@@ -13,9 +13,8 @@ const Layout = () => {
         </div>
         <div className="col">
           <TopNav />
-          <div>
-            <Routers />
-          </div>
+
+          <Routers />
         </div>
       </div>
     </div>
