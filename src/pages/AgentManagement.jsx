@@ -10,7 +10,6 @@ export default function AgentManagement() {
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
 
-
   const simulatedAgentData = [
     {
       email: "hirusha@example.com",
@@ -19,14 +18,11 @@ export default function AgentManagement() {
       role: "Backoffice",
       _id: 1,
     },
-
   ];
 
   useEffect(() => {
     setAgentList(simulatedAgentData);
   }, []);
-
-
 
   return (
     <div className="wrapper">
@@ -36,7 +32,7 @@ export default function AgentManagement() {
             <div className="header">
               <h1 className="header-title">Agent Management</h1>
               <Link
-                className="btn btn-primary ml-auto"
+                className="btn btn-primary ml-auto mb-2"
                 onClick={handleShowModal}
               >
                 Add Agent
