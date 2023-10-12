@@ -59,14 +59,21 @@ const TrainManagement = () => {
                           <td>{train.classes.join(", ")}</td>
                           <td>{train.seats}</td>
                           <td className="table-action">
-                            <div style={{ display: "flex", gap: "5px" }}>
+                            <div
+                              className="mx-auto"
+                              style={{
+                                display: "flex",
+                                gap: "1px",
+                                paddingRight: "100px",
+                              }}
+                            >
                               <Link to={`/train/edit/${train.id}`}>
-                                <button className="btn btn-pill btn-primary btn-sm">
+                                <button className="btn btn-pill btn-primary btn-sm  ">
                                   Edit
                                 </button>
                               </Link>
                               <button
-                                className="btn btn-pill btn-danger btn-sm"
+                                className="btn btn-pill btn-danger btn-sm "
                                 // Implement train deletion logic here
                                 // onClick={() => deleteTrain(train.id)}
                               >

@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Navbar, Nav, Dropdown } from "react-bootstrap";
-// import { BiUser, BiLogOut } from "react-icons/bi";
 
 const TopNav = () => {
   return (
@@ -9,14 +8,14 @@ const TopNav = () => {
       <div className="container">
         <Navbar.Brand as={Link} to="/">
           <i className="bi bi-train text-primary fs-3 me-2"></i>
-          <span className="text-primary fs-4">Train Booking</span>
+          <span className="text-primary fs-4">Railway Reservation</span>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="collapsibleNavId" />
         <Navbar.Collapse id="collapsibleNavId">
-          <Nav className="ms-auto">
+          <Nav className="m-auto">
             <Dropdown>
               <Dropdown.Toggle variant="link" id="dropdownId">
-                <i className="bi bi-person fs-4 text-primary me-2"></i>
+                <i className="bi bi-person fs-4 text-primary "></i>
                 <span className="text-primary fs-5">My Account</span>
               </Dropdown.Toggle>
               <Dropdown.Menu align="end">

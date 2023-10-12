@@ -61,7 +61,7 @@ export default function AgentManagement() {
                           <td>{agent.role}</td>
                           <td className="table-action">
                             <button
-                              className="btn btn-pill btn-danger btn-sm"
+                              className="btn btn-pill btn-danger btn-sm mx-auto"
                               style={{ marginLeft: 45, width: 60 }}
                               // Implement agent deletion logic here
                               // onClick={() => deleteMyAgent(agent._id)}

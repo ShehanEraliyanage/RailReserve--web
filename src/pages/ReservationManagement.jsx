@@ -79,15 +79,15 @@ const ReservationManagement = () => {
                           <td>{reservation.noOfTickets}</td>
                           <td>{reservation.paymentStatus}</td>
                           <td>{reservation.bookingStatus}</td>
-                          <td className="table-action">
+                          <td className="table-action mx-auto">
                             <button
-                              className="btn btn-pill btn-primary btn-sm"
+                              className="btn btn-pill btn-primary btn-sm mx-auto"
                               onClick={() => handleShowEditModal(reservation)}
                             >
                               Edit
                             </button>
                             <button
-                              className="btn btn-pill btn-danger btn-sm"
+                              className="btn btn-pill btn-danger btn-sm mx-auto"
                               onClick={() => cancelReservation(reservation.id)}
                             >
                               Cancel
