@@ -3,6 +3,7 @@ import React from "react";
 import SideBar from "../components/SideBar";
 import TopNav from "../components/TopNav";
 import Routers from "../router/Routers";
+import Login from "../pages/LogIn";
 
 const Layout = () => {
   return (
@@ -18,6 +19,10 @@ const Layout = () => {
         </div>
       </div>
     </div>
+
+    // <div>
+    //   <Login />
+    // </div>
   );
 };
 
