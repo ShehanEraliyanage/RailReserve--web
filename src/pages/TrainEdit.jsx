@@ -2,12 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { MultiSelect } from "react-multi-select-component"; // Import the MultiSelect component
+import { MultiSelect } from "react-multi-select-component";
 
 const TrainEdit = () => {
-  const { id } = useParams(); // Get the train ID from the URL
+  const { id } = useParams();
 
-  // Simulated train data (replace with actual API calls)
   const simulatedTrainData = {
     id: "TT500",
     name: "Rajarata tt",
@@ -23,13 +22,9 @@ const TrainEdit = () => {
     }))
   );
 
-  useEffect(() => {
-    // Fetch train data based on the ID from your backend here (replace simulatedTrainData)
-  }, [id]);
+  useEffect(() => {}, [id]);
 
-  const handleEditTrain = () => {
-    // Handle editing the train details (you can make an API call here)
-  };
+  const handleEditTrain = () => {};
 
   const classOptions = ["1", "2", "3"].map((classId) => ({
     label: `Class ${classId}`,

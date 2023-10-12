@@ -16,9 +16,6 @@ const TrainRegistrationModal = ({ show, handleClose }) => {
   ];
 
   const handleAddTrain = () => {
-    // Handle adding the new train with the form data
-    // You can make an API call here to send the data to the backend
-    // Don't forget to handle validation and other necessary logic
     console.log("Train ID:", trainID);
     console.log("Train Name:", trainName);
     console.log(

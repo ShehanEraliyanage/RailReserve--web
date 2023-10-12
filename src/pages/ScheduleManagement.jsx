@@ -11,8 +11,6 @@ const ScheduleManagement = () => {
   const handleCloseModal = () => setShowModal(false);
 
   useEffect(() => {
-    // Fetch schedule data from your backend here
-    // Replace the following simulated data with actual API calls
     const simulatedScheduleData = [
       {
         id: "SS001",

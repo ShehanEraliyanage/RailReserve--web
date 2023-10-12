@@ -10,7 +10,6 @@ const TrainManagement = () => {
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
 
-  // Simulated train data (replace with actual API calls)
   const simulatedTrainData = [
     {
       id: "TT500",
@@ -21,7 +20,6 @@ const TrainManagement = () => {
   ];
 
   useEffect(() => {
-    // Fetch train data from your backend here (replace simulatedTrainData)
     setTrainList(simulatedTrainData);
   }, []);
 
