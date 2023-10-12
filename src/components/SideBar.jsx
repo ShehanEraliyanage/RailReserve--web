@@ -19,9 +19,9 @@ function SideBar() {
           <i className="bi bi-list-ul fs-4 me-3"></i>
           <span className="fs-5">Travel List</span>
         </Link>
-        <Link to={"/booking"} className="list-group-item py-3 no-underline">
+        <Link to={"/reservation"} className="list-group-item py-3 no-underline">
           <i className="bi bi-bookmark fs-4 me-3"></i>
-          <span className="fs-5">Booking</span>
+          <span className="fs-5">Reservation</span>
         </Link>
         <Link to={"/schedule"} className="list-group-item py-3 no-underline">
           <i className="bi bi-building-add fs-4 me-3"></i>

@@ -6,6 +6,7 @@ import AgentManagement from "../pages/AgentManagement";
 import TrainManagement from "../pages/TrainManagement";
 import TrainEdit from "../pages/TrainEdit";
 import ScheduleManagement from "../pages/ScheduleManagement";
+import ReservationManagement from "../pages/ReservationManagement";
 
 const Routers = () => {
   return (
@@ -15,6 +16,7 @@ const Routers = () => {
       <Route path="/train" element={<TrainManagement />} />
       <Route path="/train/edit/:id" element={<TrainEdit />} />
       <Route path="/schedule" element={<ScheduleManagement />} />
+      <Route path="/reservation" element={<ReservationManagement />} />
     </Routes>
   );
 };
