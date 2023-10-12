@@ -1,7 +1,7 @@
 import React from "react";
 
-import SideBar from "../pages/SideBar";
-import TopNav from "../pages/TopNav";
+import SideBar from "../components/SideBar";
+import TopNav from "../components/TopNav";
 import Routers from "../router/Routers";
 
 const Layout = () => {
