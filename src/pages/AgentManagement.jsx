@@ -68,7 +68,6 @@ export default function AgentManagement() {
                             >
                               Delete
                             </button>
-                            
                           </td>
                         </tr>
                       ))}
