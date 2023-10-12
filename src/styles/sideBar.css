@@ -1,6 +1,11 @@
 /* sideBar.css */
 
 .sidebar {
+  background-color: beige !important;
+  height: 100vh !important;
+}
+
+.sidebar {
   width: 220px;
   background-color: #ffffff;
 }
@@ -13,4 +18,11 @@
 
 .list-group-item.no-underline {
   text-decoration: none;
+}
+.vertical-line {
+  border-right: 2px solid #000;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
