@@ -68,7 +68,7 @@ export default function AgentManagement() {
                             >
                               Delete
                             </button>
-                            {/* Add an edit link if needed */}
+                            
                           </td>
                         </tr>
                       ))}
@@ -81,7 +81,6 @@ export default function AgentManagement() {
         </main>
       </div>
 
-      {/* Add the AgentRegistrationModal component */}
       <AgentRegistrationModal show={showModal} handleClose={handleCloseModal} />
     </div>
   );

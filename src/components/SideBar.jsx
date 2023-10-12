@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../styles/sideBar.css";
 
 function SideBar() {
@@ -23,7 +23,7 @@ function SideBar() {
           <i className="bi bi-bookmark fs-4 me-3"></i>
           <span className="fs-5">Booking</span>
         </Link>
-        <Link to={"/"} className="list-group-item py-3 no-underline">
+        <Link to={"/train"} className="list-group-item py-3 no-underline">
           <i className="bi bi-train-front fs-4 me-3"></i>
           <span className="fs-5">Trains</span>
         </Link>
