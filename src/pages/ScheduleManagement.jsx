@@ -86,7 +86,7 @@ const ScheduleManagement = () => {
                           <td>{sched.price}</td>
                           <td className="table-action">
                             <button
-                              className="btn btn-pill btn-danger btn-sm"
+                              className="btn btn-pill btn-danger btn-sm mx-auto"
                               // Implement schedule deletion logic here
                               // onClick={() => deleteSchedule(sched.id)}
                             >
