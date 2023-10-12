@@ -36,6 +36,7 @@ function SideBar() {
           <span className="fs-5">Agents</span>
         </Link>
       </div>
+      <div className="vertical-line"></div> {/* Vertical line */}
     </div>
   );
 }
