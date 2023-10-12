@@ -8,7 +8,7 @@ const TopNav = () => {
       <div className="container">
         <Navbar.Brand as={Link} to="/">
           <i className="bi bi-train text-primary fs-3 me-2"></i>
-          <span className="text-primary fs-4">Railway Reservation</span>
+          <span className="text-primary fs-4">Railway Reservation - Admin</span>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="collapsibleNavId" />
         <Navbar.Collapse id="collapsibleNavId">
