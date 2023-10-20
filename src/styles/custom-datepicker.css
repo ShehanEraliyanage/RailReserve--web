@@ -1,0 +1,21 @@
+/* CustomDatePicker.css */
+
+/* Example styling for the date picker */
+.react-datepicker {
+  font-size: 16px;
+  width: 100%;
+}
+
+/* Style the input field */
+.react-datepicker__input-container {
+  width: 100%;
+}
+
+/* Style the date input field */
+.react-datepicker__input-container input {
+  width: 100%;
+  height: 36px;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
