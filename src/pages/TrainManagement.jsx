@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 import "bootstrap/dist/css/bootstrap.min.css";
 import TrainRegistrationModal from "./TrainRegistrationModal";
+import { getTrain } from "../Controllers/train";
 
 const TrainManagement = () => {
   const [trainList, setTrainList] = useState([]);
@@ -10,18 +12,43 @@ const TrainManagement = () => {
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
 
-  const simulatedTrainData = [
-    {
-      id: "TT500",
-      name: "Rajarata tt",
-      classes: ["1", "2", "3"],
-      seats: "300",
-    },
-  ];
-
   useEffect(() => {
-    setTrainList(simulatedTrainData);
+    const fetchData = async () => {
+      try {
+        const response = await getTrain();
+        console.log(
+          "🚀 ~ file: TrainManagement.jsx:19 ~ fetchData ~ response:",
+          response
+        );
+        setTrainList(response);
+      } catch (error) {
+        console.error("Error fetching train data:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Failed to fetch train data from the backend.",
+        });
+      }
+    };
+
+    fetchData();
   }, []);
+
+  const deleteTrain = (trainId) => {
+    Swal.fire({
+      title: "Delete Train?",
+      text: "Are you sure you want to delete this train?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire("Deleted!", "The train has been deleted.", "success");
+      }
+    });
+  };
 
   return (
     <div className="wrapper">
@@ -74,8 +101,7 @@ const TrainManagement = () => {
                               </Link>
                               <button
                                 className="btn btn-pill btn-danger btn-sm "
-                                // Implement train deletion logic here
-                                // onClick={() => deleteTrain(train.id)}
+                                onClick={() => deleteTrain(train.id)}
                               >
                                 Delete
                               </button>
