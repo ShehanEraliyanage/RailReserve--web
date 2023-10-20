@@ -10,7 +10,7 @@ export default function AgentRegistrationModal({ show, handleClose }) {
     email: "",
     username: "",
     fullName: "",
-    role: "Backoffice",
+    role: "agent",
     password: "",
     confirmPassword: "",
   });
@@ -21,8 +21,7 @@ export default function AgentRegistrationModal({ show, handleClose }) {
   };
 
   const handleSubmit = () => {
-    const { email, username, fullName, role, password, confirmPassword } =
-      agentData;
+    const { email, username, fullName, password, confirmPassword } = agentData;
     console.log(
       "🚀 ~ file: AgentRegistrationModal.jsx:23 ~ handleSubmit ~ agentData:",
       agentData
@@ -36,47 +35,24 @@ export default function AgentRegistrationModal({ show, handleClose }) {
     ) {
       Swal.fire("All field are empty..");
     } else {
+      addAgent({
+        email: email,
+        username: username,
+        fullName: fullName,
+        password: password,
+        confirmPassword: confirmPassword,
+      }).then((result) => {
+        if (result.status) {
+          Swal.fire({
+            title: "Success!",
+            text: "New agent registered Successfully",
+            icon: "success",
+            timer: 2000,
+            button: false,
+          });
+        }
+      });
     }
-    // const agentDataForBackend = {
-    //   email,
-    //   username,
-    //   fullName,
-    //   role,
-    //   password,
-    //   confirmPassword,
-    // };
-
-    // fetch("https://localhost:7087/api/v1/userAuthenticate/register", {
-    //   method: "POST",
-    //   body: JSON.stringify(agentDataForBackend),
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     if (data.success) {
-    //       console.log(data);
-    //       Swal.fire({
-    //         icon: "success",
-    //         title: "Registration Successful",
-    //         text: "You have successfully registered as an agent.",
-    //       }).then((result) => {
-    //         if (result.isConfirmed) {
-    //           window.location.href = "/agent";
-    //         }
-    //       });
-    //     } else {
-    //       Swal.fire({
-    //         icon: "error",
-    //         title: "Registration Failed",
-    //         text: data.error || "An error occurred during registration.",
-    //       });
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error:", error);
-    //   });
   };
 
   return (
