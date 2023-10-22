@@ -13,28 +13,12 @@ const TrainManagement = () => {
   const handleCloseModal = () => setShowModal(false);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getTrain();
-        console.log(
-          "🚀 ~ file: TrainManagement.jsx:19 ~ fetchData ~ response:",
-          response
-        );
-        setTrainList(response);
-      } catch (error) {
-        console.error("Error fetching train data:", error);
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: "Failed to fetch train data from the backend.",
-        });
-      }
-    };
-
-    fetchData();
+    getTrain().then((result) => {
+      setTrainList(result);
+    });
   }, []);
 
-  const deleteTrain = (trainId) => {
+  function deleteTrain(trainId) {
     Swal.fire({
       title: "Delete Train?",
       text: "Are you sure you want to delete this train?",
@@ -48,7 +32,7 @@ const TrainManagement = () => {
         Swal.fire("Deleted!", "The train has been deleted.", "success");
       }
     });
-  };
+  }
 
   return (
     <div className="wrapper">
