@@ -2,48 +2,33 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ReservationEditModal from "./ReservationEditModal";
+import ReservationAddModal from "./ReservationAddModal";
 
 import { getReservation } from "../Controllers/reservation";
 
 const ReservationManagement = () => {
   const [reservations, setReservations] = useState([]);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
   const [selectedReservation, setSelectedReservation] = useState(null);
 
   const handleShowEditModal = (reservation) => {
     setSelectedReservation(reservation);
     setShowEditModal(true);
   };
+  const handleShowAddModal = () => {
+    setShowAddModal(true);
+  };
 
   useEffect(() => {
     getReservation().then((result) => {
-      console.log(
-        "🚀 ~ file: ReservationManagement.jsx:20 ~ getReservation ~ result:",
-        result
-      );
-
-      setReservations(result);
+      const { data } = result;
+      setReservations(data);
     });
   }, []);
 
   const handleCloseEditModal = () => setShowEditModal(false);
-
-  // const simulatedReservationData = [
-  //   {
-  //     id: "RR001",
-  //     scheduleId: "SS001",
-  //     travelerId: "TT001",
-  //     bookingDate: "2023-10-10",
-  //     reservationDate: "2023-10-20",
-  //     noOfTickets: "2",
-  //     paymentStatus: "pending",
-  //     bookingStatus: "pending",
-  //   },
-  // ];
-
-  // useEffect(() => {
-  //   setReservations(simulatedReservationData);
-  // }, []);
+  const handleCloseAddModal = () => setShowAddModal(false);
 
   const cancelReservation = (reservationId) => {
     console.log(`Cancel reservation with ID: ${reservationId}`);
@@ -58,7 +43,7 @@ const ReservationManagement = () => {
               <h1 className="header-title">Reservation Management</h1>
               <Link
                 className="btn btn-primary ml-auto mb-2"
-                onClick={() => handleShowEditModal(null)}
+                onClick={() => handleShowAddModal()}
               >
                 Add Reservation
               </Link>
@@ -97,7 +82,7 @@ const ReservationManagement = () => {
                               className="btn btn-pill btn-primary btn-sm mx-auto"
                               onClick={() => handleShowEditModal(reservation)}
                             >
-                              Edit
+                              View
                             </button>
                             <button
                               className="btn btn-pill btn-danger btn-sm mx-auto"
@@ -116,11 +101,14 @@ const ReservationManagement = () => {
           </div>
         </main>
       </div>
-
       <ReservationEditModal
         show={showEditModal}
         handleClose={handleCloseEditModal}
         reservation={selectedReservation}
+      />
+      <ReservationAddModal
+        show={showAddModal}
+        handleClose={handleCloseAddModal}
       />
     </div>
   );

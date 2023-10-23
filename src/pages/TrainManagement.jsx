@@ -3,18 +3,29 @@ import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import "bootstrap/dist/css/bootstrap.min.css";
 import TrainRegistrationModal from "./TrainRegistrationModal";
+import TrainEditModal from "./TrainEditModal"; // Import the TrainEditModal
 import { getTrain } from "../Controllers/train";
 
 const TrainManagement = () => {
   const [trainList, setTrainList] = useState([]);
-  const [showModal, setShowModal] = useState(false);
+  const [showRegistrationModal, setShowRegistrationModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedTrain, setSelectedTrain] = useState(null);
 
-  const handleShowModal = () => setShowModal(true);
-  const handleCloseModal = () => setShowModal(false);
+  const handleShowRegistrationModal = () => setShowRegistrationModal(true);
+  const handleCloseRegistrationModal = () => setShowRegistrationModal(false);
+  const handleShowEditModal = (train) => {
+    setSelectedTrain(train);
+    console.log(selectedTrain);
+    setShowEditModal(true);
+  };
+  const handleCloseEditModal = () => setShowEditModal(false);
 
   useEffect(() => {
     getTrain().then((result) => {
-      setTrainList(result);
+      const { data } = result;
+      console.log(data);
+      setTrainList(data);
     });
   }, []);
 
@@ -29,11 +40,22 @@ const TrainManagement = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
+        // You can call the API to delete the train here
+        // Example: deleteTrainApi(trainId).then((response) => {
+        //   if (response.status === 200) {
+        //     // Successfully deleted the train, you can also remove it from the local state
+        //     const updatedTrainList = trainList.filter((train) => train.id !== trainId);
+        //     setTrainList(updatedTrainList);
+        //   } else {
+        //     Swal.fire("Error", "Failed to delete the train.", "error");
+        //   }
+        // });
+
+        // For this example, just show a confirmation message
         Swal.fire("Deleted!", "The train has been deleted.", "success");
       }
     });
   }
-
   return (
     <div className="wrapper">
       <div className="main">
@@ -43,7 +65,7 @@ const TrainManagement = () => {
               <h1 className="header-title">Train Management</h1>
               <Link
                 className="btn btn-primary ml-auto mb-2"
-                onClick={handleShowModal}
+                onClick={handleShowRegistrationModal}
               >
                 Add Train
               </Link>
@@ -78,11 +100,12 @@ const TrainManagement = () => {
                                 paddingRight: "100px",
                               }}
                             >
-                              <Link to={`/train/edit/${train.id}`}>
-                                <button className="btn btn-pill btn-primary btn-sm  ">
-                                  Edit
-                                </button>
-                              </Link>
+                              <button
+                                className="btn btn-pill btn-primary btn-sm"
+                                onClick={() => handleShowEditModal(train)}
+                              >
+                                Edit
+                              </button>
                               <button
                                 className="btn btn-pill btn-danger btn-sm "
                                 onClick={() => deleteTrain(train.id)}
@@ -102,7 +125,15 @@ const TrainManagement = () => {
         </main>
       </div>
 
-      <TrainRegistrationModal show={showModal} handleClose={handleCloseModal} />
+      <TrainRegistrationModal
+        show={showRegistrationModal}
+        handleClose={handleCloseRegistrationModal}
+      />
+      <TrainEditModal
+        show={showEditModal}
+        handleClose={handleCloseEditModal}
+        train={selectedTrain}
+      />
     </div>
   );
 };
