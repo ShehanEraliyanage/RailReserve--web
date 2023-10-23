@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ReservationEditModal from "./ReservationEditModal";
 
+import { getReservation } from "../Controllers/reservation";
+
 const ReservationManagement = () => {
   const [reservations, setReservations] = useState([]);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -13,24 +15,35 @@ const ReservationManagement = () => {
     setShowEditModal(true);
   };
 
+  useEffect(() => {
+    getReservation().then((result) => {
+      console.log(
+        "🚀 ~ file: ReservationManagement.jsx:20 ~ getReservation ~ result:",
+        result
+      );
+
+      setReservations(result);
+    });
+  }, []);
+
   const handleCloseEditModal = () => setShowEditModal(false);
 
-  const simulatedReservationData = [
-    {
-      id: "RR001",
-      scheduleId: "SS001",
-      travelerId: "TT001",
-      bookingDate: "2023-10-10",
-      reservationDate: "2023-10-20",
-      noOfTickets: "2",
-      paymentStatus: "pending",
-      bookingStatus: "pending",
-    },
-  ];
+  // const simulatedReservationData = [
+  //   {
+  //     id: "RR001",
+  //     scheduleId: "SS001",
+  //     travelerId: "TT001",
+  //     bookingDate: "2023-10-10",
+  //     reservationDate: "2023-10-20",
+  //     noOfTickets: "2",
+  //     paymentStatus: "pending",
+  //     bookingStatus: "pending",
+  //   },
+  // ];
 
-  useEffect(() => {
-    setReservations(simulatedReservationData);
-  }, []);
+  // useEffect(() => {
+  //   setReservations(simulatedReservationData);
+  // }, []);
 
   const cancelReservation = (reservationId) => {
     console.log(`Cancel reservation with ID: ${reservationId}`);

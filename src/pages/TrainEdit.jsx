@@ -3,6 +3,9 @@ import { useParams } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { MultiSelect } from "react-multi-select-component";
+import Swal from "sweetalert2";
+
+import { reactBaseURL } from "../config";
 
 const TrainEdit = () => {
   const { id } = useParams();
