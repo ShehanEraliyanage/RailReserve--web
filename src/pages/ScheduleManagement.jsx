@@ -3,12 +3,15 @@ import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Swal from "sweetalert2";
 import ScheduleAddModal from "./ScheduleAddModal";
+import ScheduleEditModal from "./ScheduleEditModal";
 
 import { getSchedule, deleteSchedules } from "../Controllers/schedule";
 
 const ScheduleManagement = () => {
   const [schedule, setSchedule] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedSchedule, setSelectedSchedule] = useState(null);
 
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
@@ -19,6 +22,12 @@ const ScheduleManagement = () => {
       setSchedule(data);
     });
   }, []);
+
+  const handleShowEditModal = (sched) => {
+    setSelectedSchedule(sched);
+    setShowEditModal(true);
+  };
+  const handleCloseEditModal = () => setShowEditModal(false);
 
   const deleteSchedule = (scheduleID) => {
     Swal.fire({
@@ -103,6 +112,12 @@ const ScheduleManagement = () => {
                           <td>{sched.price}</td>
                           <td className="table-action">
                             <button
+                              className="btn btn-pill btn-primary btn-sm"
+                              onClick={() => handleShowEditModal(sched)}
+                            >
+                              Edit
+                            </button>
+                            <button
                               className="btn btn-pill btn-danger btn-sm mx-auto"
                               onClick={() => deleteSchedule(sched.id)}
                             >
@@ -119,7 +134,11 @@ const ScheduleManagement = () => {
           </div>
         </main>
       </div>
-
+      <ScheduleEditModal
+        show={showEditModal}
+        handleClose={handleCloseEditModal}
+        schedule={selectedSchedule}
+      />
       <ScheduleAddModal show={showModal} handleClose={handleCloseModal} />
     </div>
   );

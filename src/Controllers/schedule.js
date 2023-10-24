@@ -29,3 +29,14 @@ export const deleteSchedules = async (id) => {
     console.log(error);
   }
 };
+
+export const editSchedule = async (details) => {
+  try {
+    console.log(baseURL + "schedule");
+    console.log(details);
+    const { data } = await axios.put(baseURL + "schedule", details);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};

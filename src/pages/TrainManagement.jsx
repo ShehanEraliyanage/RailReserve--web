@@ -17,7 +17,6 @@ const TrainManagement = () => {
   const handleCloseRegistrationModal = () => setShowRegistrationModal(false);
   const handleShowEditModal = (train) => {
     setSelectedTrain(train);
-    console.log(selectedTrain);
     setShowEditModal(true);
   };
   const handleCloseEditModal = () => setShowEditModal(false);
