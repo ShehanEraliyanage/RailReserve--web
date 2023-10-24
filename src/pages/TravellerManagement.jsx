@@ -3,7 +3,11 @@ import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import { getTraveller, activeTraveller } from "../Controllers/traveller";
+import {
+  getTraveller,
+  activeTraveller,
+  deactiveTraveller,
+} from "../Controllers/traveller";
 
 const TravellerManagement = () => {
   const [travellers, setTravellers] = useState([]);
@@ -14,15 +18,22 @@ const TravellerManagement = () => {
       setTravellers(data);
     });
   }, []);
-  const handleActive = (trainId) => {
-    
+  const handleActive = (nic) => {
+    console.log(nic);
+    activeTraveller(nic);
     Swal.fire("Active", "The traveller has been activated.", "success");
+    setTimeout(() => {
+      window.location.href = "/travel-list";
+    }, 2000);
   };
 
-  const handleReactive = (trainId) => {
-    // Logic to reactivate the traveller with the given ID
-    // You can implement this logic here
+  const handleReactive = (nic) => {
+    console.log(nic);
+    deactiveTraveller(nic);
     Swal.fire("Reactive", "The traveller has been reactivated.", "success");
+    setTimeout(() => {
+      window.location.href = "/travel-list";
+    }, 2000);
   };
 
   return (
@@ -42,10 +53,10 @@ const TravellerManagement = () => {
                       <tr>
                         <th>NIC</th>
                         <th>Full Name</th>
-                        <th>Status</th>
+                        <th>Phone Number</th>
                         <th>Username</th>
                         <th>Email</th>
-                        <th>Phone Number</th>
+                        <th>Status</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -77,7 +88,7 @@ const TravellerManagement = () => {
                                 className="btn btn-pill btn-danger btn-sm"
                                 onClick={() => handleReactive(travel.nic)}
                               >
-                                Reactive
+                                Deactive
                               </button>
                             </div>
                           </td>

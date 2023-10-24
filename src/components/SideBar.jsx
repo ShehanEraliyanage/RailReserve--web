@@ -31,10 +31,10 @@ function SideBar() {
           <i className="bi bi-train-front fs-4 me-3"></i>
           <span className="fs-5">Trains</span>
         </Link>
-        <Link to={"/agent"} className="list-group-item py-3 no-underline">
+        {/* <Link to={"/agent"} className="list-group-item py-3 no-underline">
           <i className="bi bi-person fs-4 me-3"></i>
           <span className="fs-5">Agents</span>
-        </Link>
+        </Link> */}
       </div>
       <div className="vertical-line"></div> {/* Vertical line */}
     </div>
