@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Swal from "sweetalert2";
 import ReservationEditModal from "./ReservationEditModal";
 import ReservationAddModal from "./ReservationAddModal";
 
-import { getReservation } from "../Controllers/reservation";
+import { getReservation, deleteReservation } from "../Controllers/reservation";
 
 const ReservationManagement = () => {
   const [reservations, setReservations] = useState([]);
@@ -31,7 +32,58 @@ const ReservationManagement = () => {
   const handleCloseAddModal = () => setShowAddModal(false);
 
   const cancelReservation = (reservationId) => {
-    console.log(`Cancel reservation with ID: ${reservationId}`);
+    console.log(
+      "🚀 ~ file: ReservationManagement.jsx:35 ~ cancelReservation ~ reservationId:",
+      reservationId
+    );
+    Swal.fire({
+      title: "Cancel Reservation?",
+      text: "Are you sure you want to cancle this Reservation?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, cancel it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        try {
+          deleteReservation(reservationId).then((response) => {
+            if (response === undefined) {
+              Swal.fire({
+                title: "Whohooo!!!!",
+                text: "Reservation must be at least 5 days in advance from the current date.",
+                icon: "Error",
+                showCancelButton: false,
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: "OK",
+              });
+            } else {
+              const updatedreservationList = reservations.filter(
+                (reservation) => reservation.id !== reservationId
+              );
+              setReservations(updatedreservationList);
+              Swal.fire({
+                icon: "success",
+                title: " The reservation is cancel",
+                timer: 2500,
+              });
+              window.location.href = "/reservation";
+            }
+          });
+        } catch (error) {
+          console.log("error");
+        }
+
+        // if (response.status === 200) {
+        //   const updatedreservationList = reservations.filter(
+        //     (reservation) => reservation.id !== reservationId
+        //   );
+        //   setReservations(updatedreservationList);
+        // } else {
+        //   Swal.fire("Deleted!", "The train has been deleted.", "success");
+        // }
+      }
+    });
   };
 
   return (
@@ -75,8 +127,18 @@ const ReservationManagement = () => {
                           <td>{reservation.bookingDate}</td>
                           <td>{reservation.reservationDate}</td>
                           <td>{reservation.noOfTickets}</td>
-                          <td>{reservation.paymentStatus}</td>
-                          <td>{reservation.bookingStatus}</td>
+                          <td>
+                            {" "}
+                            {reservation.paymentStatus === "p"
+                              ? "Pending"
+                              : reservation.paymentStatus}
+                          </td>
+                          <td>
+                            {" "}
+                            {reservation.bookingStatus === "p"
+                              ? "Pending"
+                              : reservation.bookingStatus}
+                          </td>
                           <td className="table-action mx-auto">
                             <button
                               className="btn btn-pill btn-primary btn-sm mx-auto"

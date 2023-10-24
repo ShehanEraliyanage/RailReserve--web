@@ -7,6 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import { addReservation } from "../Controllers/reservation";
 import { getSchedule } from "../Controllers/schedule";
+import { getTraveller } from "../Controllers/traveller";
 
 const ReservationAddModal = ({ show, handleClose }) => {
   const [newReservation, setNewReservation] = useState({
@@ -14,18 +15,26 @@ const ReservationAddModal = ({ show, handleClose }) => {
     bookingDate: new Date(),
     reservationDate: null,
     noOfTickets: "",
-    paymentStatus: "",
-    bookingStatus: "",
+    paymentStatus: "p",
+    bookingStatus: "p",
   });
   const [scheduleID, setScheduleID] = useState([]);
+  const [traveller, SetTraveller] = useState([]);
   const [selectedScheduleId, setSelectedScheduleId] = useState("");
+  const [selectedTravellerNic, setSelectedTravellerNic] = useState("");
 
   useEffect(() => {
     getSchedule().then((result) => {
       const { data } = result;
       const scheduleIds = data.map((schedule) => schedule.id);
-      console.log(scheduleIds);
       setScheduleID(scheduleIds);
+    });
+  }, []);
+  useEffect(() => {
+    getTraveller().then((result) => {
+      const { data } = result;
+      const travellers = data.map((traveller) => traveller.nic);
+      SetTraveller(travellers);
     });
   }, []);
 
@@ -44,16 +53,19 @@ const ReservationAddModal = ({ show, handleClose }) => {
     const formattedReservationDate = `${reservationYear}-${
       reservationMonth < 10 ? "0" : ""
     }${reservationMonth}-${reservationDay < 10 ? "0" : ""}${reservationDay}`;
+    // console.log(newReservation.id);
+    // console.log(selectedScheduleId);
+    // console.log(selectedTravellerNic);
+    // console.log(formattedBookingDate);
+    // console.log(formattedReservationDate);
+    // console.log(newReservation.noOfTickets);
+    // console.log(newReservation.paymentStatus);
+    // console.log(newReservation.bookingStatus);
 
-    console.log("Formatted Booking Date:", formattedBookingDate);
-    console.log("ScheduleID:", selectedScheduleId);
-    console.log("Formatted Reservation Date:", formattedReservationDate);
-
-    console.log("New Reservation Data:", newReservation);
     if (
       newReservation.id === "" &&
-      newReservation.bookingDate === "" &&
-      newReservation.reservationDate === "" &&
+      formattedBookingDate === "" &&
+      formattedReservationDate === "" &&
       newReservation.noOfTickets === "" &&
       newReservation.paymentStatus === "" &&
       newReservation.bookingStatus === ""
@@ -72,12 +84,37 @@ const ReservationAddModal = ({ show, handleClose }) => {
     } else if (newReservation.bookingStatus === "") {
       Swal.fire("Booking Status is required.");
     } else {
-      // addReservation({
-      //   id: newReservation.id,
-      //   scheduleId: newReservation.scheduleId,
-      // });
+      addReservation({
+        id: newReservation.id,
+        scheduleId: selectedScheduleId,
+        travelerId: selectedTravellerNic,
+        bookingDate: formattedBookingDate,
+        reservationDate: formattedReservationDate,
+        noOfTickets: newReservation.noOfTickets,
+        paymentStatus: newReservation.paymentStatus,
+        bookingStatus: newReservation.bookingStatus,
+      })
+        .then((result) => {
+          if (result) {
+            Swal.fire({
+              icon: "success",
+              title: "Reservation Added Successfully",
+              showConfirmButton: false,
+              timer: 2500,
+            });
+          }
+        })
+        .then(() => {
+          window.location.href = "/reservation";
+        })
+        .catch((error) => {
+          Swal.fire({
+            icon: "error",
+            title: "Oops! Something went wrong.",
+            text: error.message,
+          });
+        });
     }
-    // handleClose(id);
   };
   return (
     <Modal show={show} onHide={handleClose}>
@@ -121,21 +158,25 @@ const ReservationAddModal = ({ show, handleClose }) => {
               ))}
             </select>
           </div>
-
-          {/*   //TODO check <div className="mb-3">
-            <label htmlFor="scheduleID" className="form-label">
-              Booking Date
+          <div className="mb-3">
+            <label htmlFor="Traveller" className="form-label">
+              Select Traveller
             </label>
-            <DatePicker
-              selected={newReservation.bookingDate}
-              onChange={(date) =>
-                setNewReservation({
-                  ...newReservation,
-                  bookingDate: date,
-                })
-              }
-            />
-          </div> */}
+            <select
+              className="form-select"
+              id="traveller"
+              value={selectedTravellerNic}
+              onChange={(e) => setSelectedTravellerNic(e.target.value)}
+            >
+              <option value="">Select Traveller NIC</option>
+              {traveller.map((traveller) => (
+                <option key={traveller} value={traveller}>
+                  {traveller}
+                </option>
+              ))}
+            </select>
+          </div>
+
           <div className="mb-3">
             <label htmlFor="scheduleID" className="form-label">
               Reservation Date
@@ -151,23 +192,31 @@ const ReservationAddModal = ({ show, handleClose }) => {
             />
           </div>
           <div className="mb-3">
-            <label htmlFor="scheduleID" className="form-label">
-              No. of Tickets
+            <label htmlFor="noOfTickets" className="form-label">
+              No. of Tickets (1 to 5)
             </label>
             <input
-              type="text"
+              type="number"
               className="form-control"
               id="noOfTickets"
               value={newReservation.noOfTickets}
-              onChange={(e) =>
-                setNewReservation({
-                  ...newReservation,
-                  noOfTickets: e.target.value,
-                })
-              }
+              onInput={(e) => {
+                const inputValue = e.target.value;
+                const intValue = parseInt(inputValue);
+
+                if (!isNaN(intValue) && intValue >= 1 && intValue <= 5) {
+                  setNewReservation({
+                    ...newReservation,
+                    noOfTickets: inputValue,
+                  });
+                } else {
+                  e.target.value = newReservation.noOfTickets;
+                }
+              }}
             />
           </div>
-          <div className="mb-3">
+
+          {/* <div className="mb-3">
             <label htmlFor="scheduleID" className="form-label">
               Payment Status
             </label>
@@ -200,7 +249,7 @@ const ReservationAddModal = ({ show, handleClose }) => {
                 })
               }
             />
-          </div>
+          </div> */}
         </form>
       </Modal.Body>
       <Modal.Footer>
