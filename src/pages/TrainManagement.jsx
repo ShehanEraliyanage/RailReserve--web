@@ -6,12 +6,14 @@ import TrainRegistrationModal from "./TrainRegistrationModal";
 import TrainEditModal from "./TrainEditModal";
 
 import { getTrain, deleteTrains } from "../Controllers/train";
+import { getSchedule } from "../Controllers/schedule";
 
 const TrainManagement = () => {
   const [trainList, setTrainList] = useState([]);
   const [showRegistrationModal, setShowRegistrationModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedTrain, setSelectedTrain] = useState(null);
+  const [shedule, setSchedule] = useState([]);
 
   const handleShowRegistrationModal = () => setShowRegistrationModal(true);
   const handleCloseRegistrationModal = () => setShowRegistrationModal(false);
@@ -22,6 +24,14 @@ const TrainManagement = () => {
   const handleCloseEditModal = () => setShowEditModal(false);
 
   useEffect(() => {
+    getSchedule().then((result) => {
+      const { data } = result;
+      const trainIds = data.map((schedule) => schedule.trainId);
+      setSchedule(trainIds);
+    });
+  }, [shedule]);
+
+  useEffect(() => {
     getTrain().then((result) => {
       const { data } = result;
       setTrainList(data);
@@ -29,33 +39,51 @@ const TrainManagement = () => {
   }, []);
 
   const deleteTrain = (trainId) => {
-    Swal.fire({
-      title: "Delete Train?",
-      text: "Are you sure you want to delete this train?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#d33",
-      cancelButtonColor: "#3085d6",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        deleteTrains(trainId)
-          .then((response) => {
-            if (response.status === 200) {
-              const updatedTrainList = trainList.filter(
-                (train) => train.id !== trainId
-              );
-              setTrainList(updatedTrainList);
-              Swal.fire("Deleted!", "The train has been deleted.", "success");
-            } else {
-              Swal.fire("Deleted!", "The train has been deleted.", "success");
-            }
-          })
-          .catch((error) => {
-            Swal.fire("Error", "Failed to delete the train.", error);
-          });
-      }
-    });
+    if (shedule.includes(trainId)) {
+      console.log("true");
+      Swal.fire({
+        title: "Whohooo!!!!",
+        text: "You are not allowed to delete the train, It is already scheduled",
+        icon: "Error",
+        showCancelButton: false,
+        confirmButtonColor: "#3085d6",
+        confirmButtonText: "OK",
+      });
+    } else {
+      Swal.fire({
+        title: "Delete Train?",
+        text: "Are you sure you want to delete this train?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Yes, delete it!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          deleteTrains(trainId)
+            .then((response) => {
+              if (response.status === 200) {
+                const updatedTrainList = trainList.filter(
+                  (train) => train.id !== trainId
+                );
+                setTrainList(updatedTrainList);
+                Swal.fire("Deleted!", "The train has been deleted.", "success");
+                setTimeout(() => {
+                  window.location.href = "/train";
+                }, 2500);
+              } else {
+                Swal.fire("Deleted!", "The train has been deleted.", "success");
+                setTimeout(() => {
+                  window.location.href = "/train";
+                }, 2500);
+              }
+            })
+            .catch((error) => {
+              Swal.fire("Error", "Failed to delete the train.", error);
+            });
+        }
+      });
+    }
   };
 
   return (
