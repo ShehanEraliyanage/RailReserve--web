@@ -65,9 +65,9 @@ const TravellerManagement = () => {
                         <tr key={index}>
                           <td>{travel.nic}</td>
                           <td>{travel.fullName}</td>
+                          <td>{travel.phoneNumber}</td>
                           <td>{travel.userName}</td>
                           <td>{travel.email}</td>
-                          <td>{travel.phoneNumber}</td>
                           <td>{travel.status}</td>
                           <td className="table-action">
                             <div
