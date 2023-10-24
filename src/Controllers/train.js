@@ -22,7 +22,6 @@ export const addTrain = async (details) => {
 export const deleteTrains = async (id) => {
   try {
     const newvalu = id;
-    console.log(baseURL + "train/" + newvalu);
     const { data } = await axios.delete(baseURL + "train/" + newvalu);
     return data;
   } catch (error) {

@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Select from "react-select";
 import CustomTimePicker from "../components/CustomTimePicker";
+import Swal from "sweetalert2";
+
+import { getTrain } from "../Controllers/train";
+import { addSchedule } from "../Controllers/schedule";
 
 const ScheduleAddModal = ({ show, handleClose }) => {
   const [schedule, setSchedule] = useState({
@@ -12,36 +16,66 @@ const ScheduleAddModal = ({ show, handleClose }) => {
     arrivalTime: null,
     startingPlace: "",
     destination: "",
-    stopPlaceAndTime: [
-      { place: "", time: "" },
-      { place: "", time: "" },
-    ],
+    stopPlaceAndTime: [{ place: "", time: "" }],
     price: "",
   });
 
-  const trainOptions = [
-    { value: "TT100", label: "Train 1" },
-    { value: "TT200", label: "Train 2" },
-  ];
+  const [trainOptions, setTrainOptions] = useState([]);
+
+  useEffect(() => {
+    getTrain().then((result) => {
+      const trainData = result.data;
+      const options = trainData.map((train) => ({
+        value: train.id,
+        label: train.name,
+      }));
+      setTrainOptions(options);
+    });
+  }, []);
 
   const handleAddSchedule = async () => {
-    try {
-      const response = await fetch("your_backend_api_url", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(schedule),
-      });
-
-      if (response.status === 200) {
-        console.log("Schedule added successfully");
-        handleClose();
-      } else {
-        console.error("Failed to add schedule");
-      }
-    } catch (error) {
-      console.error("API call error:", error);
+    if (
+      schedule.id === "" &&
+      schedule.trainId === null &&
+      schedule.startingTime === null &&
+      schedule.arrivalTime === null &&
+      schedule.destination === "" &&
+      schedule.startingPlace === "" &&
+      schedule.price === "" &&
+      schedule.stopPlaceAndTime.length < 2
+    ) {
+      Swal.fire("All fields are empty.");
+    } else {
+      addSchedule({
+        id: schedule.id,
+        trainId: schedule.trainId,
+        startingTime: schedule.startingTime,
+        arrivalTime: schedule.arrivalTime,
+        startingPlace: schedule.startingPlace,
+        destination: schedule.destination,
+        stopPlaceAndTime: schedule.stopPlaceAndTime,
+        price: schedule.price,
+      })
+        .then((result) => {
+          if (result) {
+            Swal.fire({
+              icon: "success",
+              title: "Schedule Added Successfully",
+              showConfirmButton: false,
+              timer: 2500,
+            });
+          }
+        })
+        .then(() => {
+          window.location.href = "/schedule";
+        })
+        .catch((error) => {
+          Swal.fire({
+            icon: "error",
+            title: "Oops! Something went wrong.",
+            text: error.message,
+          });
+        });
     }
   };
 
@@ -57,13 +91,15 @@ const ScheduleAddModal = ({ show, handleClose }) => {
     setSchedule({ ...schedule, arrivalTime: value });
   };
 
-  const addStopPlaceTimeField = () => {
+  const addStopPlaceTimeField = (e) => {
+    e.preventDefault(); // Prevent the default form submission
     const updatedStopPlaceAndTime = [
       ...schedule.stopPlaceAndTime,
       { place: "", time: "" },
     ];
     setSchedule({ ...schedule, stopPlaceAndTime: updatedStopPlaceAndTime });
   };
+
   const handleStopPlaceTimeChange = (index, field, value) => {
     const updatedStopPlaceAndTime = [...schedule.stopPlaceAndTime];
     updatedStopPlaceAndTime[index][field] = value;
@@ -181,8 +217,9 @@ const ScheduleAddModal = ({ show, handleClose }) => {
               </div>
             ))}
             <button
+              type="button"
               className="btn btn-primary"
-              onClick={() => addStopPlaceTimeField()}
+              onClick={addStopPlaceTimeField}
             >
               Add Stop
             </button>

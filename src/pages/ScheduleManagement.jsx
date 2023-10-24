@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Swal from "sweetalert2";
 import ScheduleAddModal from "./ScheduleAddModal";
+
+import { getSchedule, deleteSchedules } from "../Controllers/schedule";
 
 const ScheduleManagement = () => {
   const [schedule, setSchedule] = useState([]);
@@ -11,29 +14,43 @@ const ScheduleManagement = () => {
   const handleCloseModal = () => setShowModal(false);
 
   useEffect(() => {
-    const simulatedScheduleData = [
-      {
-        id: "SS001",
-        trainId: "TT100",
-        startingTime: "02.30.AM",
-        arrivalTime: "05.30.AM",
-        startingPlace: "Colombo",
-        destination: "Badull",
-        stopPlaceAndTime: [
-          {
-            place: "Rabukkana",
-            time: "03.00.AM",
-          },
-          {
-            place: "Nuwara",
-            time: "04.00.AM",
-          },
-        ],
-        price: "1000.00",
-      },
-    ];
-    setSchedule(simulatedScheduleData);
+    getSchedule().then((result) => {
+      const { data } = result;
+      setSchedule(data);
+    });
   }, []);
+
+  const deleteSchedule = (scheduleID) => {
+    Swal.fire({
+      title: "Delete Train?",
+      text: "Are you sure you want to delete this train?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteSchedules(scheduleID)
+          .then((response) => {
+            if (response.status === 200) {
+              const updatedTrainList = schedule.filter(
+                (schedule) => schedule.id !== scheduleID
+              );
+              setSchedule(updatedTrainList);
+            } else {
+              Swal.fire("Deleted!", "The train has been deleted.", "success");
+              setTimeout(() => {
+                window.location.href = "/schedule";
+              }, 1500);
+            }
+          })
+          .catch((error) => {
+            Swal.fire("Error", "Failed to delete the train.", error);
+          });
+      }
+    });
+  };
 
   return (
     <div className="wrapper">
@@ -87,8 +104,7 @@ const ScheduleManagement = () => {
                           <td className="table-action">
                             <button
                               className="btn btn-pill btn-danger btn-sm mx-auto"
-                              // Implement schedule deletion logic here
-                              // onClick={() => deleteSchedule(sched.id)}
+                              onClick={() => deleteSchedule(sched.id)}
                             >
                               Delete
                             </button>
