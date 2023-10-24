@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import Swal from "sweetalert2";
 import { MultiSelect } from "react-multi-select-component";
+
+import { editTrain } from "../Controllers/train";
 
 const TrainEditModal = ({ show, handleClose, train }) => {
   const [editedTrain, setEditedTrain] = useState({});
@@ -18,7 +21,7 @@ const TrainEditModal = ({ show, handleClose, train }) => {
       setEditedTrain({
         id: train.id,
         name: train.name,
-        classes: train.classes, // Set the initial classes
+        classes: train.classes,
         seats: train.seats,
       });
       setSelectedClasses(
@@ -31,12 +34,49 @@ const TrainEditModal = ({ show, handleClose, train }) => {
   }, [train]);
 
   const handleSaveChanges = () => {
-    // Update the classes with the selected classes
     setEditedTrain({
       ...editedTrain,
       classes: selectedClasses.map((option) => option.value),
     });
-    handleClose();
+    const classLabels = selectedClasses.map((classOption) => classOption.value);
+    Swal.fire({
+      title: "Edit Train",
+      text: "Are you sure you want to edit this train?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, edit it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        editTrain({
+          id: editedTrain.id,
+          name: editedTrain.name,
+          classes: classLabels,
+          seats: editedTrain.seats,
+        })
+          .then((result) => {
+            if (result) {
+              Swal.fire({
+                icon: "success",
+                title: "Train Edit Successfully",
+                showConfirmButton: false,
+                timer: 2500,
+              });
+            }
+          })
+          .then(() => {
+            window.location.href = "/train";
+          })
+          .catch((error) => {
+            Swal.fire({
+              icon: "error",
+              title: "Oops! Something went wrong.",
+              text: error.message,
+            });
+          });
+      }
+    });
   };
 
   return (

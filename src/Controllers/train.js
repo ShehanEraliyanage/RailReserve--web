@@ -28,3 +28,13 @@ export const deleteTrains = async (id) => {
     console.log(error);
   }
 };
+export const editTrain = async (details) => {
+  try {
+    console.log(baseURL + "train");
+    console.log(details);
+    const { data } = await axios.put(baseURL + "train", details);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import { getTraveller } from "../Controllers/traveller";
+import { getTraveller, activeTraveller } from "../Controllers/traveller";
 
 const TravellerManagement = () => {
   const [travellers, setTravellers] = useState([]);
@@ -15,8 +15,7 @@ const TravellerManagement = () => {
     });
   }, []);
   const handleActive = (trainId) => {
-    // Logic to activate the traveller with the given ID
-    // You can implement this logic here
+    
     Swal.fire("Active", "The traveller has been activated.", "success");
   };
 
