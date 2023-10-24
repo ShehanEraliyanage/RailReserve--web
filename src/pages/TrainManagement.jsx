@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import "bootstrap/dist/css/bootstrap.min.css";
 import TrainRegistrationModal from "./TrainRegistrationModal";
-import TrainEditModal from "./TrainEditModal"; // Import the TrainEditModal
-import { getTrain } from "../Controllers/train";
+import TrainEditModal from "./TrainEditModal";
+
+import { getTrain, deleteTrains } from "../Controllers/train";
 
 const TrainManagement = () => {
   const [trainList, setTrainList] = useState([]);
@@ -24,12 +25,11 @@ const TrainManagement = () => {
   useEffect(() => {
     getTrain().then((result) => {
       const { data } = result;
-      console.log(data);
       setTrainList(data);
     });
   }, []);
 
-  function deleteTrain(trainId) {
+  const deleteTrain = (trainId) => {
     Swal.fire({
       title: "Delete Train?",
       text: "Are you sure you want to delete this train?",
@@ -40,22 +40,25 @@ const TrainManagement = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        // You can call the API to delete the train here
-        // Example: deleteTrainApi(trainId).then((response) => {
-        //   if (response.status === 200) {
-        //     // Successfully deleted the train, you can also remove it from the local state
-        //     const updatedTrainList = trainList.filter((train) => train.id !== trainId);
-        //     setTrainList(updatedTrainList);
-        //   } else {
-        //     Swal.fire("Error", "Failed to delete the train.", "error");
-        //   }
-        // });
-
-        // For this example, just show a confirmation message
-        Swal.fire("Deleted!", "The train has been deleted.", "success");
+        deleteTrains(trainId)
+          .then((response) => {
+            if (response.status === 200) {
+              const updatedTrainList = trainList.filter(
+                (train) => train.id !== trainId
+              );
+              setTrainList(updatedTrainList);
+              Swal.fire("Deleted!", "The train has been deleted.", "success");
+            } else {
+              Swal.fire("Deleted!", "The train has been deleted.", "success");
+            }
+          })
+          .catch((error) => {
+            Swal.fire("Error", "Failed to delete the train.", error);
+          });
       }
     });
-  }
+  };
+
   return (
     <div className="wrapper">
       <div className="main">

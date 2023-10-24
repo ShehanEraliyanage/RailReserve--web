@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { MultiSelect } from "react-multi-select-component";
+import Swal from "sweetalert2";
+
+import { addTrain } from "../Controllers/train";
 
 const TrainRegistrationModal = ({ show, handleClose }) => {
   const [trainID, setTrainID] = useState("");
@@ -16,14 +19,43 @@ const TrainRegistrationModal = ({ show, handleClose }) => {
   ];
 
   const handleAddTrain = () => {
-    console.log("Train ID:", trainID);
-    console.log("Train Name:", trainName);
-    console.log(
-      "Classes:",
-      selectedClasses.map((selectedClass) => selectedClass.value)
-    );
-    console.log("Seats:", trainSeats);
-    handleClose();
+    const classLabels = selectedClasses.map((classOption) => classOption.value);
+
+    if (
+      trainID === "" &&
+      trainName === "" &&
+      classLabels.length === 0 &&
+      trainSeats === ""
+    ) {
+      Swal.fire("All fields are empty.");
+    } else {
+      addTrain({
+        id: trainID,
+        name: trainName,
+        classes: classLabels,
+        seats: trainSeats,
+      })
+        .then((result) => {
+          if (result) {
+            Swal.fire({
+              icon: "success",
+              title: "Train Added Successfully",
+              showConfirmButton: false,
+              timer: 2500,
+            });
+          }
+        })
+        .then(() => {
+          window.location.href = "/train";
+        })
+        .catch((error) => {
+          Swal.fire({
+            icon: "error",
+            title: "Oops! Something went wrong.",
+            text: error.message,
+          });
+        });
+    }
   };
 
   return (
